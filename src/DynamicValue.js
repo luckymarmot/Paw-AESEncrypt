@@ -54,6 +54,22 @@ export default class DynamicValue {
             }
         ),
         new InputField(
+            'keyEnc',
+            'Key Encoding',
+            'Select',
+            {
+                persisted: true,
+                choices: {
+                    Hex: 'Hex',
+                    Base64: 'Base 64',
+                    Utf8: 'UTF 8 (default)',
+                    Utf16: 'UTF 16',
+                    Latin1: 'Latin1'
+                },
+                defaultValue: 'Utf8'
+            }
+        ),
+        new InputField(
             'iv',
             'Initialization Vector',
             'SecureValue',
@@ -151,19 +167,24 @@ export default class DynamicValue {
             hasOptions = true
         }
 
+        let key = this.key;
+        if (this.keyEnc) {
+            key = CryptoJS.enc[this.keyEnc].parse(this.key);
+        }
+
         let encrypted = null
         try {
             if (hasOptions) {
                 encrypted = CryptoJS.AES.encrypt(
                     message,
-                    this.key,
+                    key,
                     options
                 )
             }
             else {
                 encrypted = CryptoJS.AES.encrypt(
                     message,
-                    this.key
+                    key
                 )
             }
 
