@@ -167,9 +167,9 @@ export default class DynamicValue {
             hasOptions = true
         }
 
-        let key = this.key;
+        let key = this.key
         if (this.keyEnc) {
-            key = CryptoJS.enc[this.keyEnc].parse(this.key);
+            key = CryptoJS.enc[this.keyEnc].parse(this.key)
         }
 
         let encrypted = null
